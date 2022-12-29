@@ -12,7 +12,7 @@ class Polynomial:
             if coefs[i]:
                 return len(coefs)-1
                 break
-
+            
         return 0
 
     def __str__(self):

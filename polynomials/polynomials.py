@@ -1,8 +1,10 @@
 """ Defines polynomial class. """
 
+from numbers import Number
+
 class Polynomial:
 
-    def __init__(self, coefs):
+    def __init__(self, coefs): # coefs is a tuple, i.e., immutable!
 
         self.coefficients = coefs
 
@@ -16,9 +18,9 @@ class Polynomial:
 
     def __str__(self):
 
-        """ Converts polynomial object into its familiar mathematical representation. """
+        """ Converts polynomial object into its familiar algebraic representation. """
         
-        coefs = self.coefficients # list of coefs from lowest order term to highest order term.
+        coefs = self.coefficients # tuple of coefficients from lowest order term to highest order term.
         terms = []
 
         # convert each term of polynomial object into algebraic representation a_nx^n
@@ -36,6 +38,30 @@ class Polynomial:
     def __eq__(self,other):
 
         return self.coefficients == other.coefficients
+
+    def __add__(self, other):
+
+        if isinstance(other, Polynomial):    
+            common = min(self.degree(), other.degree()) + 1 # no. of common terms to be added together
+            coefs = tuple(a + b for a, b in zip(self.coefficients, other.coefficients))
+            coefs += self.coefficients[common:] + other.coefficients[common:]
+
+            return Polynomial(coefs)
+
+        elif isinstance(other, Number):
+            return Polynomial(((self.coefficients[0] + other,) + self.coefficients[1:]))
+
+        else:
+            return NotImplemented
+
+    def __radd__(self, other):
+        return self + other
+       
+
+
+
+        
+
 
 
 
